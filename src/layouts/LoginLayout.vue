@@ -1,0 +1,40 @@
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated>
+      <q-toolbar>
+        <q-toolbar-title> Login Sygma</q-toolbar-title>
+        <!-- <div>V{{ $q.version }}</div> -->
+      </q-toolbar>
+    </q-header>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+    <q-footer reveal elevated>
+      <q-toolbar>
+        <q-toolbar-title></q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+  </q-layout>
+</template>
+
+<script>
+import { defineComponent, ref } from "vue";
+import EssentialLink from "components/EssentialLink.vue";
+
+export default defineComponent({
+  name: "MainLayout",
+  setup() {
+    return {};
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.container-items {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>
