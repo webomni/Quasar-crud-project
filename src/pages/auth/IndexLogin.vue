@@ -51,7 +51,7 @@ const login = async () => {
     console.log(user);
 
     // Set user data in localStorage (pinia)
-    userStore.setUser(user.data);
+    userStore.setUser(user.data, data.token);
   } catch (error) {
     console.log("error");
     console.log(error);

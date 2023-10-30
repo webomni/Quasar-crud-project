@@ -46,13 +46,14 @@ export const useUserStore = defineStore("user", {
         if (error) throw error;
       }
     },
-    setUser({ data }) {
+    setUser(payload, token) {
+      const { data } = payload;
       console.log("payload");
       console.log(data);
       if (data.id) this.id = data.id;
       if (data.email) this.email = data.email;
       if (data.name) this.name = data.name;
-      if (data.token) this.token = data.token;
+      if (token) this.token = token;
     },
     clearUser() {
       this.id = null;
