@@ -1,43 +1,56 @@
 import { defineStore } from "pinia";
 import { server } from "src/boot/axios";
+import { useUserStore } from "./user-store";
 
-export const useUserStore = defineStore("user", {
+export const useContactStore = defineStore("contact", {
   state: () => ({
     id: null,
-    email: null,
-    name: null,
-    token: null,
+    nome: null,
+    endereco: null,
+    telefone: null,
   }),
   getters: {
     getId: (state) => state.id,
-    getEmail: (state) => state.email,
     getName: (state) => state.name,
-    getToken: (state) => state.token,
+    getEndereco: (state) => state.endereco,
+    getTelefone: (state) => state.telefone,
   },
   actions: {
     async getSanctumCookie() {
       try {
         await server.get("/sanctum/csrf-cookie");
       } catch (error) {
-        console.log("erro 1");
         if (error) throw error;
       }
     },
-    async login(email, password) {
+    async register(nome, endereco, telefone) {
       const result = {
         status: false,
         msg: "",
-        data: "",
       };
 
+      const userStore = useUserStore();
       try {
-        const { data } = await server.post("api/login", {
-          email,
-          password,
-          device_name: "vuePH",
-        });
-        result.status = true;
-        result.data = data;
+        await server
+          .post(
+            "api/cadastros",
+            {
+              nome,
+              endereco,
+              telefone,
+            },
+            {
+              headers: { Authorization: `Bearer ${userStore.getToken}` },
+            }
+          )
+          .then((res) => {
+            result.status = true;
+          })
+          .catch((error) => {
+            result.msg = error.response.data.message
+              ? error.response.data.message
+              : "";
+          });
         return result;
       } catch (error) {
         result.msg = error.response.data.message
@@ -46,18 +59,18 @@ export const useUserStore = defineStore("user", {
         return result;
       }
     },
-    async fetchUser(token, id) {
+    async fetchContact(token, id) {
       try {
-        return await server.get(`api/usuarios/${id}`, {
+        /*  return await server.get(`api/usuarios/${id}`, {
           "Content-Type": "application/json",
           headers: { Authorization: `Bearer ${token}` },
-        });
+        }); */
       } catch (error) {
         console.log("erro 3");
         if (error) throw error;
       }
     },
-    setUser(payload, token) {
+    /*  setUser(payload, token) {
       const { data } = payload;
       console.log("payload");
       console.log(data);
@@ -71,7 +84,7 @@ export const useUserStore = defineStore("user", {
       this.email = null;
       this.name = null;
       this.token = null;
-    },
+    }, */
   },
   persist: true,
 });

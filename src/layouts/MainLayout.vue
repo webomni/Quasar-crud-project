@@ -17,7 +17,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above="false" bordered>
+    <q-drawer v-model="leftDrawerOpen" bordered>
       <div class="container-items">
         <q-list>
           <q-item-label header> Menu </q-item-label>
@@ -85,7 +85,6 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
-
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
