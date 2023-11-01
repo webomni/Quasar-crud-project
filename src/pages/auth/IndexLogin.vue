@@ -34,12 +34,14 @@
 <script setup>
 import { ref } from "vue";
 import { useUserStore } from "src/stores/user-store";
+import { useContactStore } from "src/stores/contact-store";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 
 const credential = ref("paulo@sygmasistemas.com.br");
 const password = ref("123456");
 const userStore = useUserStore();
+const contactStore = useContactStore();
 const $q = useQuasar();
 const router = useRouter();
 
@@ -60,7 +62,8 @@ const login = async () => {
       userStore.setUser(user.data, data.token);
 
       // redirect to main
-      router.push("/main");
+      await contactStore.showAllContact();
+      router.push("/contact");
     } else {
       $q.notify({
         type: "negative",

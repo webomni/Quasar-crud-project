@@ -4,3 +4,20 @@
   height: calc(100vh - 180px);
   max-width: 500px;
 }
+.text-black-opacity {
+  color: #000000;
+  opacity: 40%;
+}
+.container-bottom {
+  z-index: 6000;
+  position: fixed;
+  bottom: 0;
+  background-color: $background-ligth;
+}
+svg {
+  width: 70px;
+  height: 70px;
+}
+svg:hover {
+  fill: red;
+}

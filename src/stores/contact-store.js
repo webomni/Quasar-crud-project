@@ -8,18 +8,35 @@ export const useContactStore = defineStore("contact", {
     nome: null,
     endereco: null,
     telefone: null,
+    allContact: null,
   }),
   getters: {
     getId: (state) => state.id,
     getName: (state) => state.name,
     getEndereco: (state) => state.endereco,
     getTelefone: (state) => state.telefone,
+    getAllContact: (state) => state.allContact,
   },
   actions: {
     async getSanctumCookie() {
       try {
         await server.get("/sanctum/csrf-cookie");
       } catch (error) {
+        if (error) throw error;
+      }
+    },
+    async showAllContact() {
+      const userStore = useUserStore();
+      try {
+        const response = await server.get("api/cadastros", {
+          "Content-Type": "application/json",
+          headers: { Authorization: `Bearer ${userStore.getToken}` },
+        });
+        console.log("response");
+        console.log(response);
+        return response;
+      } catch (error) {
+        console.log("erro 4");
         if (error) throw error;
       }
     },

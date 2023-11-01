@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <q-scroll-area class="form-style">
-      <div class="text-h6 text-center q-mt-md">
+      <div class="text-h6 text-center q-mt-lg">
         <div>Registrar Contatos</div>
       </div>
 

@@ -10,8 +10,13 @@ const routes = [
       },
       {
         path: "register",
-        alias: "",
+        alias: "register",
         component: () => import("pages/contact/RegisterContact.vue"),
+      },
+      {
+        path: "profile",
+        alias: "profile",
+        component: () => import("pages/profile/IndexProfile.vue"),
       },
     ],
   },

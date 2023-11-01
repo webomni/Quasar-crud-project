@@ -8,21 +8,31 @@
       <q-list>
         <q-item>
           <q-item-section top avatar>
-            <q-avatar color="green" text-color="white" icon="directions" />
+            <q-avatar color="green" text-color="white">
+              <img
+                class="avatar"
+                :src="`https://cdn.quasar.dev/img/avatar${1}.jpg`"
+              />
+            </q-avatar>
           </q-item-section>
+          <!-- class="full-width column items-center justify-center" -->
 
           <q-item-section>
             <q-item-label>A cool new road!</q-item-label>
             <q-item-label caption>
               <div class="q-px-sm"><b>From</b>: This is the from section</div>
-              <div class="q-px-sm"><b>To</b>: This is the from section</div>
-              <div class="q-px-sm"><b>Serch Radius</b>: 3</div>
             </q-item-label>
           </q-item-section>
 
           <q-item-section side bootom>
-            <q-btn class="q-ma-sm" label="Go to map" color="green" size="sm" />
-            <q-btn class="q-ma-sm" label="Delete" color="red" size="sm" />
+            <q-btn
+              round
+              color="red"
+              icon="fa-regular fa-trash-can"
+              style="color: #f7dede"
+              size="sm"
+            />
+            <font-awesome-icon />
           </q-item-section>
         </q-item>
       </q-list>
@@ -33,114 +43,21 @@
 <script setup>
 import { useQuasar } from "quasar";
 import { useContactStore } from "src/stores/contact-store";
-import { reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 
+// DATA
 const nome = ref("");
 const endereco = ref("");
 const telefone = ref("");
+
+const allContact = ref([]);
 const $q = useQuasar();
 
 const contactStore = useContactStore();
 
-const errors = reactive({
-  nome: { errorMsg: null, errorType: null },
-  telefone: { errorMsg: null, errorType: null },
+onMounted(() => {
+  if (contactStore.getAllContact) allContact.value = contactStore.getAllContact;
 });
-
-const validation = () => {
-  let isError = false;
-
-  // Nome
-  if (nome.value.length < 1) {
-    errors.nome.errorMsg = "Favor inserir nome do contato!";
-    errors.nome.errorType = true;
-    isError = true;
-  } else {
-    errors.nome.errorMsg = null;
-    errors.nome.errorType = null;
-  }
-
-  // Nome
-  if (telefone.value.length < 1) {
-    errors.telefone.errorMsg = "Favor inserir o telefone do contato!";
-    errors.telefone.errorType = true;
-    isError = true;
-  } else {
-    errors.telefone.errorMsg = null;
-    errors.telefone.errorType = null;
-  }
-
-  return isError;
-};
-
-const register = async () => {
-  const isError = validation();
-
-  if (isError === true) return false;
-
-  if (!navigator.onLine) {
-    $q.dialog({
-      title: "Offline",
-      message:
-        "Seu registro não foi bem-sucedido. Por favor, certifique-se de estar conectado à Internet.",
-      persistent: true,
-    });
-    return "";
-  }
-
-  $q.loading.show({
-    message: "Aguarde salvando registro...",
-  });
-
-  try {
-    // Get the tokens/cookies
-    await contactStore.getSanctumCookie();
-
-    // Register User
-    const resp = await contactStore.register(
-      nome.value,
-      endereco.value,
-      telefone.value
-    );
-
-    if (resp.status == true) {
-      // Get user details
-      /*  const res = await userStore.fetchContact();
-
-      // Set user details in localhost (PINIA)
-      userStore.setUser(res.data);
-      // Redirect
-      router.push("/route"); */
-
-      $q.loading.hide();
-
-      $q.notify({
-        type: "positive",
-        position: "top",
-        icon: "check_circle",
-        message: "Registro salvo com sucesso!",
-      });
-    } else {
-      if (resp.msg.includes("Unauthenticated")) {
-        resp.msg = "Não autenticado!";
-        $q.loading.hide();
-      }
-      $q.notify({
-        type: "negative",
-        position: "top",
-        message: resp.msg,
-      });
-    }
-  } catch (error) {
-    $q.loading.hide();
-
-    $q.dialog({
-      title: "Ops!",
-      message: "Falha no salvamento. Verifique!",
-      persistent: true,
-    });
-  }
-};
 </script>
 
 <style lang="scss" scoped>

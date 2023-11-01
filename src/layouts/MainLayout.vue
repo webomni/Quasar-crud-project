@@ -13,7 +13,14 @@
 
         <q-toolbar-title> Contatos Sygma </q-toolbar-title>
 
-        <!-- <div>V{{ $q.version }}</div> -->
+        <div>
+          <q-avatar size="28px">
+            <img
+              :src="`https://cdn.quasar.dev/img/avatar${1}.jpg`"
+              @click="goToAvatar('profile')"
+            />
+          </q-avatar>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -28,7 +35,7 @@
             v-bind="link"
           />
         </q-list>
-        <q-item clickable tag="a" href="#">
+        <!-- <q-item clickable tag="a" href="#">
           <q-item-section>
             <q-item-label>
               <div class="q-pa-sm">
@@ -44,35 +51,36 @@
               </div>
             </q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
       </div>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer reveal elevated>
-      <q-toolbar>
-        <q-toolbar-title></q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
+    <!-- Componente BottomBar -->
+    <div class="container-bottom full-width q-pb-lg">
+      <q-separator class="full-width q-mb-sm" />
+      <BottomBar />
+    </div>
   </q-layout>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
+import BottomBar from "src/components/BottomBar/Index.vue";
 
 const linksList = [
   {
     title: "Contatos",
     icon: "fa fa-address-book",
-    link: "",
+    link: "contact",
   },
   {
     title: "Cadastrar",
     icon: "fa-regular fa-pen-to-square",
-    link: "",
+    link: "register",
   },
 ];
 
@@ -81,6 +89,7 @@ export default defineComponent({
 
   components: {
     EssentialLink,
+    BottomBar,
   },
 
   setup() {
@@ -93,6 +102,11 @@ export default defineComponent({
       },
     };
   },
+  methods: {
+    goToAvatar(route) {
+      this.$router.push({ path: route });
+    },
+  },
 });
 </script>
 
@@ -102,5 +116,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.q-avatar {
+  cursor: pointer;
 }
 </style>
