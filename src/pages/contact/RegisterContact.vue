@@ -1,31 +1,40 @@
 <template>
   <q-page>
-    <div class="text-center q-pt-lg">
-      <div class="text-h6">Lista de Contatos</div>
-    </div>
+    <q-scroll-area class="form-style">
+      <div class="text-h6 text-center q-mt-md">
+        <div>Registrar Contatos</div>
+      </div>
 
-    <q-scroll-area class="list form-style">
-      <q-list>
-        <q-item>
-          <q-item-section top avatar>
-            <q-avatar color="green" text-color="white" icon="directions" />
-          </q-item-section>
+      <div class="q-pa-md q-gutter-md">
+        <div class="text-center q-m-xs">Registrar contato!</div>
 
-          <q-item-section>
-            <q-item-label>A cool new road!</q-item-label>
-            <q-item-label caption>
-              <div class="q-px-sm"><b>From</b>: This is the from section</div>
-              <div class="q-px-sm"><b>To</b>: This is the from section</div>
-              <div class="q-px-sm"><b>Serch Radius</b>: 3</div>
-            </q-item-label>
-          </q-item-section>
+        <q-input
+          v-model="nome"
+          label="Nome"
+          :error-message="errors.nome.errorMsg"
+          :error="errors.nome.errorType"
+        />
+        <q-input v-model="endereco" label="Endereço" />
+        <q-input
+          v-model="telefone"
+          label="Telefone"
+          mask="(##)#####-####"
+          :error-message="errors.telefone.errorMsg"
+          :error="errors.telefone.errorType"
+        />
+      </div>
 
-          <q-item-section side bootom>
-            <q-btn class="q-ma-sm" label="Go to map" color="green" size="sm" />
-            <q-btn class="q-ma-sm" label="Delete" color="red" size="sm" />
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <div class="q-px-md q-pb-lg">
+        <div class="row justify-end q-pt-md">
+          <q-btn
+            size="md"
+            color="primary"
+            label="Salvar"
+            @click.prevent="register"
+            class="salvar-button full-width q-mt-lg"
+          />
+        </div>
+      </div>
     </q-scroll-area>
   </q-page>
 </template>
