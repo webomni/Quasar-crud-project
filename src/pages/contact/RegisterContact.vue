@@ -43,12 +43,13 @@
 import { useQuasar } from "quasar";
 import { useContactStore } from "src/stores/contact-store";
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const nome = ref("");
 const endereco = ref("");
 const telefone = ref("");
 const $q = useQuasar();
-
+const router = useRouter();
 const contactStore = useContactStore();
 
 const errors = reactive({
@@ -118,9 +119,8 @@ const register = async () => {
 
       // Set user details in localhost (PINIA)
       userStore.setUser(res.data);
-      // Redirect
-      router.push("/route"); */
-
+      // Redirect*/
+      router.push("contact");
       $q.loading.hide();
 
       $q.notify({

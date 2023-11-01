@@ -10,11 +10,10 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer reveal elevated>
-      <q-toolbar>
-        <q-toolbar-title></q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
+    <!-- Componente BottomBar -->
+    <div class="container-bottom footer-login full-width q-pb-lg">
+      <q-separator class="full-width q-mb-sm" />
+    </div>
   </q-layout>
 </template>
 
@@ -36,5 +35,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.footer-login {
+  height: 60px;
 }
 </style>

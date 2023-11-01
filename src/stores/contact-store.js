@@ -25,16 +25,18 @@ export const useContactStore = defineStore("contact", {
         if (error) throw error;
       }
     },
-    async showAllContact() {
+    async showAllContact(page = 1) {
       const userStore = useUserStore();
       try {
-        const response = await server.get("api/cadastros", {
+        const { data } = await server.get("api/cadastros", {
           "Content-Type": "application/json",
           headers: { Authorization: `Bearer ${userStore.getToken}` },
+          params: { page: page },
         });
-        console.log("response");
-        console.log(response);
-        return response;
+        console.log("data paginação");
+        console.log(data);
+        this.allContact = data.data;
+        return data.data;
       } catch (error) {
         console.log("erro 4");
         if (error) throw error;
@@ -61,6 +63,7 @@ export const useContactStore = defineStore("contact", {
             }
           )
           .then((res) => {
+            this.showAllContact();
             result.status = true;
           })
           .catch((error) => {
@@ -68,8 +71,10 @@ export const useContactStore = defineStore("contact", {
               ? error.response.data.message
               : "";
           });
+
         return result;
       } catch (error) {
+        console.log("register teste 4");
         result.msg = error.response.data.message
           ? error.response.data.message
           : "";

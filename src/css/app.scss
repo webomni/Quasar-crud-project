@@ -1,7 +1,7 @@
 // app global css in SCSS form
 .form-style {
   margin: 0 auto;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 230px);
   max-width: 500px;
 }
 .text-black-opacity {
@@ -13,11 +13,4 @@
   position: fixed;
   bottom: 0;
   background-color: $background-ligth;
-}
-svg {
-  width: 70px;
-  height: 70px;
-}
-svg:hover {
-  fill: red;
 }

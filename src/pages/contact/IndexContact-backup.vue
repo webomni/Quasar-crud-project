@@ -3,6 +3,7 @@
     <div class="text-center q-pt-lg">
       <div class="text-h6">Lista de Contatos</div>
     </div>
+
     <q-scroll-area class="list form-style">
       <q-list v-for="contact in allContact" :key="contact.id">
         <q-card flat class="my-card full-width">
@@ -41,7 +42,7 @@
       </q-list>
     </q-scroll-area>
     <div class="q-pa-lg flex flex-center full-width">
-      <q-pagination v-model="current" :max="2" direction-links />
+      <q-pagination v-model="current" :max="5" direction-links />
     </div>
   </q-page>
 </template>
@@ -59,7 +60,7 @@ const telefone = ref("");
 const allContact = ref([]);
 const $q = useQuasar();
 const contactStore = useContactStore();
-const current = ref(1);
+const current = ref(3);
 
 onMounted(() => {
   console.log(contactStore.getAllContact);
@@ -70,12 +71,6 @@ watch(
   () => contactStore.getAllContact,
   async () => {
     allContact.value = contactStore.getAllContact;
-  }
-);
-watch(
-  () => current.value,
-  async () => {
-    contactStore.showAllContact(current.value);
   }
 );
 </script>

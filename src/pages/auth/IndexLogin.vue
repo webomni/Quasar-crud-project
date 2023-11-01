@@ -47,6 +47,10 @@ const router = useRouter();
 
 const login = async () => {
   try {
+    $q.loading.show({
+      message: "Logando...",
+    });
+
     // Get the token/cookie
     await userStore.getSanctumCookie();
 
@@ -71,7 +75,9 @@ const login = async () => {
         message: response.msg,
       });
     }
+    $q.loading.hide();
   } catch (error) {
+    $q.loading.hide();
     $q.notify({
       type: "negative",
       position: "top",

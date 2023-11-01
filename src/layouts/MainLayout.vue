@@ -35,23 +35,6 @@
             v-bind="link"
           />
         </q-list>
-        <!-- <q-item clickable tag="a" href="#">
-          <q-item-section>
-            <q-item-label>
-              <div class="q-pa-sm">
-                <div class="q-mt-lg">
-                  <q-icon
-                    class="q-mr-md"
-                    name="fas fa-arrow-right-from-bracket"
-                    size="18px"
-                    color="dark-items"
-                  />
-                  <span class="q-pl-md">Logout</span>
-                </div>
-              </div>
-            </q-item-label>
-          </q-item-section>
-        </q-item> -->
       </div>
     </q-drawer>
 
