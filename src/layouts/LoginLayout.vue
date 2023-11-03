@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout>
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> Login Sygma</q-toolbar-title>

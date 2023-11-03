@@ -1,30 +1,40 @@
+import { useUserStore } from "src/stores/user-store";
+
 const routes = [
   {
-    path: "/",
+    path: "/main",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
         path: "contact",
+        name: "contact",
         alias: "",
         component: () => import("src/pages/contact/IndexContact.vue"),
       },
       {
         path: "register",
         alias: "register",
+        name: "register",
         component: () => import("pages/contact/RegisterContact.vue"),
       },
       {
         path: "profile",
         alias: "profile",
+        name: "profile",
         component: () => import("pages/profile/IndexProfile.vue"),
       },
     ],
   },
   {
-    path: "/auth",
+    path: "",
+    alias: "",
     component: () => import("layouts/LoginLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/auth/IndexLogin.vue") },
+      {
+        path: "",
+        name: "auth",
+        component: () => import("pages/auth/IndexLogin.vue"),
+      },
     ],
   },
 

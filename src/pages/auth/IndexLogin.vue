@@ -67,7 +67,7 @@ const login = async () => {
 
       // redirect to main
       await contactStore.showAllContact();
-      router.push("/contact");
+      router.push("main/contact");
     } else {
       $q.notify({
         type: "negative",

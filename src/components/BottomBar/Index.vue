@@ -5,7 +5,7 @@
       height="25px"
       class="q-ml-sm"
       src="src/assets/house.svg"
-      @click="goTo('contact')"
+      @click="goTo('main/contact')"
     />
     <q-img
       width="25px"
