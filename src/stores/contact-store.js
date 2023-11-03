@@ -9,6 +9,8 @@ export const useContactStore = defineStore("contact", {
     endereco: null,
     telefone: null,
     allContact: null,
+    currentPage: null,
+    lastPage: null,
   }),
   getters: {
     getId: (state) => state.id,
@@ -16,6 +18,8 @@ export const useContactStore = defineStore("contact", {
     getEndereco: (state) => state.endereco,
     getTelefone: (state) => state.telefone,
     getAllContact: (state) => state.allContact,
+    getCurrentPage: (state) => state.currentPage,
+    getLastPage: (state) => state.lastPage,
   },
   actions: {
     async getSanctumCookie() {
@@ -36,6 +40,9 @@ export const useContactStore = defineStore("contact", {
         console.log("data paginação");
         console.log(data);
         this.allContact = data.data;
+        this.currentPage = data.meta.current_page; // pagina atual
+        this.lastPage = data.meta.last_page; // quantidade de pagina
+
         return data.data;
       } catch (error) {
         console.log("erro 4");

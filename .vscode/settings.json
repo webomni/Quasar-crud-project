@@ -3,13 +3,9 @@
   "editor.guides.bracketPairs": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": [
-    "source.fixAll.eslint"
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+  "html-css-class-completion.remoteStyleSheets": [
+    "https://cdn.jsdelivr.net/npm/quasar@2.13.0/dist/quasar.prod.css"
   ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "vue"
-  ]
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"]
 }

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout class="q-layout">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -54,6 +54,8 @@ import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import BottomBar from "src/components/BottomBar/Index.vue";
 
+const tab = ref("images");
+
 const linksList = [
   {
     title: "Contatos",
@@ -89,18 +91,29 @@ export default defineComponent({
     goToAvatar(route) {
       this.$router.push({ path: route });
     },
+    myTweak(offset) {
+      // "offset" is a Number (pixels) that refers to the total
+      // height of header + footer that occupies on screen,
+      // based on the QLayout "view" prop configuration
+
+      // this is actually what the default style-fn does in Quasar
+      return { minHeight: offset ? `calc(100vh - ${offset}px)` : "100vh" };
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .container-items {
-  height: 100vh;
+  height: calc(100vh - 230px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .q-avatar {
   cursor: pointer;
+}
+.q-layout {
+  height: 100vh;
 }
 </style>

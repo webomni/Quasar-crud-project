@@ -14,7 +14,12 @@
           :error-message="errors.nome.errorMsg"
           :error="errors.nome.errorType"
         />
-        <q-input v-model="endereco" label="Endereço" />
+        <q-input
+          v-model="endereco"
+          label="Endereço"
+          :error-message="errors.endereco.errorMsg"
+          :error="errors.endereco.errorType"
+        />
         <q-input
           v-model="telefone"
           label="Telefone"
@@ -54,6 +59,7 @@ const contactStore = useContactStore();
 
 const errors = reactive({
   nome: { errorMsg: null, errorType: null },
+  endereco: { errorMsg: null, errorType: null },
   telefone: { errorMsg: null, errorType: null },
 });
 
@@ -68,6 +74,17 @@ const validation = () => {
   } else {
     errors.nome.errorMsg = null;
     errors.nome.errorType = null;
+  }
+
+  // endereco
+  if (endereco.value.length < 4) {
+    errors.endereco.errorMsg =
+      "Favor inserir endereço com mais de 3 caracteres!";
+    errors.endereco.errorType = true;
+    isError = true;
+  } else {
+    errors.endereco.errorMsg = null;
+    errors.endereco.errorType = null;
   }
 
   // Nome

@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page :style-fn="myTweak" class="justify-between">
     <div class="text-center q-pt-lg">
       <div class="text-h6">Lista de Contatos</div>
     </div>
@@ -41,7 +41,11 @@
       </q-list>
     </q-scroll-area>
     <div class="q-pa-lg flex flex-center full-width">
-      <q-pagination v-model="current" :max="2" direction-links />
+      <q-pagination
+        v-model="current"
+        :max="contactStore.getLastPage"
+        direction-links
+      />
     </div>
   </q-page>
 </template>
@@ -59,7 +63,7 @@ const telefone = ref("");
 const allContact = ref([]);
 const $q = useQuasar();
 const contactStore = useContactStore();
-const current = ref(1);
+const current = ref(0);
 
 onMounted(() => {
   console.log(contactStore.getAllContact);
@@ -78,6 +82,10 @@ watch(
     contactStore.showAllContact(current.value);
   }
 );
+
+function myTweak(offset) {
+  return { minHeight: offset ? `calc(100vh - ${offset}px)` : "100vh" };
+}
 </script>
 
 <style lang="scss" scoped>

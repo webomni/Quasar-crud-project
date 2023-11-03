@@ -6,7 +6,7 @@ const routes = [
       {
         path: "contact",
         alias: "",
-        component: () => import("pages/contact/IndexContact.vue"),
+        component: () => import("src/pages/contact/IndexContact.vue"),
       },
       {
         path: "register",

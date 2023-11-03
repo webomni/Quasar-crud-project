@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable tag="a" href="#" @click="goTo(link)">
+  <q-item clickable @click="goTo(link)">
     <q-item-section v-if="icon" avatar>
       <q-icon class="q-mr-md" :name="icon" size="18px" color="dark-items" />
       <!-- <q-icon :name="icon" /> -->
