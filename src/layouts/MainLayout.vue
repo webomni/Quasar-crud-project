@@ -39,20 +39,31 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <transition
+        appear
+        enter-active-class="animated backInLeft"
+        leave-active-class="animated backOutLeft"
+      >
+        <router-view />
+      </transition>
     </q-page-container>
     <!-- Componente BottomBar -->
-    <div class="container-bottom full-width q-pb-lg">
-      <q-separator class="full-width q-mb-sm" />
-      <BottomBar />
-    </div>
+    <q-footer class="bg-white small-screen-only" bordered>
+      <q-tabs
+        class="text-grey-10"
+        active-color="primary"
+        indicator-color="transparent"
+      >
+        <q-route-tab to="/main/contact" icon="eva-calendar-outline" />
+        <q-route-tab to="/main/register" icon="eva-plus-circle-outline" />
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
-import BottomBar from "src/components/BottomBar/Index.vue";
 
 const tab = ref("images");
 
@@ -60,12 +71,12 @@ const linksList = [
   {
     title: "Contatos",
     icon: "fa fa-address-book",
-    link: "contact",
+    link: "/main/contact",
   },
   {
     title: "Cadastrar",
     icon: "fa-regular fa-pen-to-square",
-    link: "register",
+    link: "/main/register",
   },
 ];
 
@@ -74,7 +85,6 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-    BottomBar,
   },
 
   setup() {
@@ -115,5 +125,19 @@ export default defineComponent({
 }
 .q-layout {
   height: 100vh;
+}
+.q-toolbar {
+  @media (min-width: $breakpoint-sm-min) {
+    height: 77px;
+  }
+}
+.q-footer .q-tab__icon {
+  font-size: 32px;
+}
+.q-toolbar__title {
+  font-size: 30px;
+  @media (max-width: $breakpoint-xs-max) {
+    text-align: center;
+  }
 }
 </style>

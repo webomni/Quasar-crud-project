@@ -8,7 +8,13 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <transition
+        appear
+        enter-active-class="animated backInLeft"
+        leave-active-class="animated backOutLeft"
+      >
+        <router-view />
+      </transition>
     </q-page-container>
     <!-- Componente BottomBar -->
     <div class="container-bottom footer-login full-width q-pb-lg">

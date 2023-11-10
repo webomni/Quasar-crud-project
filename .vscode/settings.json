@@ -7,5 +7,6 @@
   "html-css-class-completion.remoteStyleSheets": [
     "https://cdn.jsdelivr.net/npm/quasar@2.13.0/dist/quasar.prod.css"
   ],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"]
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+  "splitHTMLAttributes.closingBracketOnNewLine": true
 }

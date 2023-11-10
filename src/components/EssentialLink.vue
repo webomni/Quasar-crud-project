@@ -1,6 +1,6 @@
 <template>
-  <q-item clickable @click="goTo(link)">
-    <q-item-section v-if="icon" avatar>
+  <q-item clickable :to="link">
+    <q-item-section v-if="icon" avatar :to="link">
       <q-icon class="q-mr-md" :name="icon" size="18px" color="dark-items" />
       <!-- <q-icon :name="icon" /> -->
     </q-item-section>
