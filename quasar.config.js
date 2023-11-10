@@ -149,7 +149,7 @@ module.exports = configure(function (/* ctx */) {
       // extendGenerateSWOptions (cfg) {}
       // extendInjectManifestOptions (cfg) {},
       // extendManifestJson (json) {}
-      // extendPWACustomSWConf (esbuildConf) {}
+      extendPWACustomSWConf(esbuildConf) {},
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova

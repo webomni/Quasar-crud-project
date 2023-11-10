@@ -105,7 +105,7 @@ const register = async () => {
 
   if (isError === true) return false;
 
-  if (!navigator.onLine) {
+  /* if (!navigator.onLine) {
     $q.dialog({
       title: "Offline",
       message:
@@ -113,7 +113,7 @@ const register = async () => {
       persistent: true,
     });
     return "";
-  }
+  } */
 
   $q.loading.show({
     message: "Aguarde salvando registro...",

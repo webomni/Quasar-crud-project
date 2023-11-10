@@ -13,6 +13,9 @@ import {
   createHandlerBoundToURL,
 } from "workbox-precaching";
 import { registerRoute, NavigationRoute } from "workbox-routing";
+//import { StaleWhileRevalidate } from "workbox-strategies";
+import { NetworkFirst } from "workbox-strategies";
+import { Queue } from "workbox-background-sync";
 
 self.skipWaiting();
 clientsClaim();
@@ -20,6 +23,17 @@ clientsClaim();
 // Use with precache injection
 precacheAndRoute(self.__WB_MANIFEST);
 
+let backgroundSyncSupport = "sync" in self.registration ? true : false;
+console.log("backgroundSyncSupport: ", backgroundSyncSupport);
+
+/**
+ * queue - createPost
+ */
+let createPostQueue = null;
+if (backgroundSyncSupport) {
+  createPostQueue = new Queue("createPostQueue");
+}
+/*
 cleanupOutdatedCaches();
 
 // Non-SSR fallback to index.html
@@ -31,4 +45,36 @@ if (process.env.MODE !== "ssr" || process.env.PROD) {
       { denylist: [/sw\.js$/, /workbox-(.)*\.js$/] }
     )
   );
+} */
+/* registerRoute(
+  ({ url }) => url.href.startsWith("http"),
+  new StaleWhileRevalidate()
+); */
+
+registerRoute(({ url }) => url.href.startsWith("http"), new NetworkFirst());
+
+/**
+ * events - fetch
+ */
+if (backgroundSyncSupport) {
+  self.addEventListener("fetch", (event) => {
+    // Add in your own criteria here to return early if this
+    // isn't a request that should use background sync.
+    if (event.request.method !== "POST") {
+      return;
+    }
+    if (event.request.url.endsWith("/cadastros")) {
+      const bgSyncLogic = async () => {
+        try {
+          const response = await fetch(event.request.clone());
+          return response;
+        } catch (error) {
+          await createPostQueue.pushRequest({ request: event.request });
+          return error;
+        }
+      };
+
+      event.respondWith(bgSyncLogic());
+    }
+  });
 }
