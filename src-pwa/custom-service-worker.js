@@ -46,7 +46,10 @@ if (process.env.MODE !== "ssr" || process.env.PROD) {
   );
 } */
 
-registerRoute(({ url }) => url.href.startsWith("/api"), new NetworkFirst());
+registerRoute(
+  ({ url }) => url.href.startsWith("/api/cadastros"),
+  new NetworkFirst()
+);
 registerRoute(
   ({ url }) => url.href.startsWith("http"),
   new StaleWhileRevalidate()
@@ -66,22 +69,20 @@ if (backgroundSyncSupport) {
     }
     console.log("event.request.url");
     console.log(event);
-    /*     if (event.request.url.endsWith("cadastros")) { */
-    console.log("url = true");
-    const bgSyncLogic = async () => {
-      try {
-        const response = await fetch(event.request.clone());
-        return response;
-      } catch (error) {
-        console.log("erro queue: ", error);
-        await createPostQueue.pushRequest({ request: event.request });
-        return error;
-      }
-    };
+    if (event.request.url.endsWith("cadastros")) {
+      console.log("url = true");
+      const bgSyncLogic = async () => {
+        try {
+          const response = await fetch(event.request.clone());
+          return response;
+        } catch (error) {
+          console.log("erro queue: ", error);
+          await createPostQueue.pushRequest({ request: event.request });
+          return error;
+        }
+      };
 
-    event.respondWith(bgSyncLogic());
-    /*  } else {
-      console.log("url = false");
-    } */
+      event.respondWith(bgSyncLogic());
+    }
   });
 }

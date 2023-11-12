@@ -147,6 +147,8 @@ const register = async () => {
         message: "Registro salvo com sucesso!",
       });
     } else {
+      console.log("erro na promisse registro!");
+
       if (resp.msg.includes("Unauthenticated")) {
         resp.msg = "Não autenticado!";
         $q.loading.hide();
@@ -158,13 +160,31 @@ const register = async () => {
       });
     }
   } catch (error) {
+    if (!navigator.onLine && backgroundSyncSupported) {
+      // redirect to home page
+      $q.notify({
+        type: "warning",
+        position: "top",
+        message: "Castro criado offline!",
+      });
+      router.push("contact");
+    } else {
+      console.log("erro na promisse final!");
+      $q.dialog({
+        title: "Ops!",
+        message: "Falha no salvamento. Verifique!",
+        persistent: true,
+      });
+    }
     $q.loading.hide();
+  }
+};
 
-    $q.dialog({
-      title: "Ops!",
-      message: "Falha no salvamento. Verifique!",
-      persistent: true,
-    });
+const backgroundSyncSupported = async () => {
+  if ("serviceWorker" in navigator && "syncManager" in window) {
+    return true;
+  } else {
+    return false;
   }
 };
 </script>

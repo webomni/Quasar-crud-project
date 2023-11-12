@@ -75,6 +75,7 @@ export const useContactStore = defineStore("contact", {
             result.status = true;
           })
           .catch((error) => {
+            console.log("erro na promisse!");
             result.msg = error.response.data.message
               ? error.response.data.message
               : "";
