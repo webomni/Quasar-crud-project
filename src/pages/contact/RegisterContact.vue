@@ -121,7 +121,7 @@ const register = async () => {
 
   try {
     // Get the tokens/cookies
-    await contactStore.getSanctumCookie();
+    //await contactStore.getSanctumCookie();
 
     // Register User
     const resp = await contactStore.register(

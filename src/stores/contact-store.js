@@ -22,12 +22,13 @@ export const useContactStore = defineStore("contact", {
     getLastPage: (state) => state.lastPage,
   },
   actions: {
+    // fazer o getSanctumCookie, ocorre erro para se for usar PWA offline.
     async getSanctumCookie() {
-      try {
+      /*  try {
         await server.get("/sanctum/csrf-cookie");
       } catch (error) {
         if (error) throw error;
-      }
+      } */
     },
     async showAllContact(page = 1) {
       const userStore = useUserStore();

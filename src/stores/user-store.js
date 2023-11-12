@@ -15,13 +15,14 @@ export const useUserStore = defineStore("user", {
     getToken: (state) => state.token,
   },
   actions: {
+    // fazer o getSanctumCookie, ocorre erro para se for usar PWA offline.
     async getSanctumCookie() {
-      try {
+      /* try {
         await server.get("/sanctum/csrf-cookie");
       } catch (error) {
         console.log("erro 1");
         if (error) throw error;
-      }
+      } */
     },
     async login(email, password) {
       const result = {

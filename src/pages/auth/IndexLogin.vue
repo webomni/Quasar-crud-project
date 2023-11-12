@@ -52,7 +52,7 @@ const login = async () => {
     });
 
     // Get the token/cookie
-    await userStore.getSanctumCookie();
+    //await userStore.getSanctumCookie();
 
     // login user
     const response = await userStore.login(credential.value, password.value);

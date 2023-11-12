@@ -13,8 +13,7 @@ import {
   createHandlerBoundToURL,
 } from "workbox-precaching";
 import { registerRoute, NavigationRoute } from "workbox-routing";
-//import { StaleWhileRevalidate } from "workbox-strategies";
-import { NetworkFirst } from "workbox-strategies";
+import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { Queue } from "workbox-background-sync";
 
 self.skipWaiting();
@@ -46,35 +45,43 @@ if (process.env.MODE !== "ssr" || process.env.PROD) {
     )
   );
 } */
-/* registerRoute(
+
+registerRoute(({ url }) => url.href.startsWith("/api"), new NetworkFirst());
+registerRoute(
   ({ url }) => url.href.startsWith("http"),
   new StaleWhileRevalidate()
-); */
-
-registerRoute(({ url }) => url.href.startsWith("http"), new NetworkFirst());
+);
 
 /**
  * events - fetch
  */
+console.log("veio 1");
 if (backgroundSyncSupport) {
   self.addEventListener("fetch", (event) => {
     // Add in your own criteria here to return early if this
     // isn't a request that should use background sync.
+    console.log("veio 2");
     if (event.request.method !== "POST") {
       return;
     }
-    if (event.request.url.endsWith("/cadastros")) {
-      const bgSyncLogic = async () => {
-        try {
-          const response = await fetch(event.request.clone());
-          return response;
-        } catch (error) {
-          await createPostQueue.pushRequest({ request: event.request });
-          return error;
-        }
-      };
+    console.log("event.request.url");
+    console.log(event);
+    /*     if (event.request.url.endsWith("cadastros")) { */
+    console.log("url = true");
+    const bgSyncLogic = async () => {
+      try {
+        const response = await fetch(event.request.clone());
+        return response;
+      } catch (error) {
+        console.log("erro queue: ", error);
+        await createPostQueue.pushRequest({ request: event.request });
+        return error;
+      }
+    };
 
-      event.respondWith(bgSyncLogic());
-    }
+    event.respondWith(bgSyncLogic());
+    /*  } else {
+      console.log("url = false");
+    } */
   });
 }
