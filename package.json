@@ -16,6 +16,7 @@
     "@quasar/extras": "^1.16.4",
     "@quasar/icongenie": "^3.1.1",
     "axios": "^1.2.1",
+    "idb": "^7.1.1",
     "pinia": "^2.0.11",
     "pinia-plugin-persistedstate": "^3.2.0",
     "quasar": "^2.6.0",

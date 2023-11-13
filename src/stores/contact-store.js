@@ -44,8 +44,17 @@ export const useContactStore = defineStore("contact", {
         this.currentPage = data.meta.current_page; // pagina atual
         this.lastPage = data.meta.last_page; // quantidade de pagina
 
+        // verifica se esta offline
+        console.log("Contact offline 0!");
+        console.log("navigator.onLine");
+        console.log(navigator.onLine);
+        if (!navigator.onLine) {
+          this.getOffLineContact();
+        }
+
         return data.data;
       } catch (error) {
+        console.log("Contact offline 1!");
         console.log("erro 4");
         if (error) throw error;
       }
@@ -101,6 +110,17 @@ export const useContactStore = defineStore("contact", {
         if (error) throw error;
       }
     },
+    async getOffLineContact() {
+      console.log("Contact offline 2!");
+      /* try {
+        let db = openDB("workbox-background-sync").then((db) => {
+          console.log("database is open: ", db);
+        });
+      } catch (error) {
+        console.log("database com erro: ", error);
+      } */
+    },
+    //workbox-background-sync
     /*  setUser(payload, token) {
       const { data } = payload;
       console.log("payload");
