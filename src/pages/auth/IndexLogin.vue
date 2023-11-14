@@ -4,7 +4,7 @@
     class="flex flex-center column justify-center q-px-md form-style"
   >
     <div class="full-width column items-center justify-center">
-      <q-img class="logo q-mb-lg" src="src/assets/logo.png"></q-img>
+      <q-img class="logo q-mb-lg" src="icons/logo.png"></q-img>
       <q-form class="full-width" @submit="login">
         <q-input
           v-model="credential"
