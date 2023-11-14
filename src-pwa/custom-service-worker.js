@@ -16,6 +16,9 @@ import { registerRoute, NavigationRoute } from "workbox-routing";
 import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { Queue } from "workbox-background-sync";
 
+// desabilita os logs da caixa de trabalho
+/* self.__WB_DISABLE_DEV_LOGS = true; */
+
 self.skipWaiting();
 clientsClaim();
 
@@ -28,7 +31,7 @@ console.log("backgroundSyncSupport: ", backgroundSyncSupport);
 /**
  * queue - createPost
  */
-let createPostQueue = null;
+var createPostQueue = null;
 if (backgroundSyncSupport) {
   createPostQueue = new Queue("createPostQueue");
 }

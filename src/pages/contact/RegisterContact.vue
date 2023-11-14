@@ -167,6 +167,7 @@ const register = async () => {
         position: "top",
         message: "Castro criado offline!",
       });
+      await contactStore.showAllContact(1);
       router.push("contact");
     } else {
       console.log("erro na promisse final!");

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { server } from "src/boot/axios";
 import { useUserStore } from "./user-store";
+import { openDB } from "idb";
 
 export const useContactStore = defineStore("contact", {
   state: () => ({
@@ -31,31 +32,46 @@ export const useContactStore = defineStore("contact", {
       } */
     },
     async showAllContact(page = 1) {
+      // TODO se não foi informado a pagina pegar a ultima pagina
+      /*  if (!page) {
+        page = this.getLastPage;
+      } */
       const userStore = useUserStore();
       try {
-        const { data } = await server.get("api/cadastros", {
-          "Content-Type": "application/json",
-          headers: { Authorization: `Bearer ${userStore.getToken}` },
-          params: { page: page },
-        });
-        console.log("data paginação");
-        console.log(data);
-        this.allContact = data.data;
-        this.currentPage = data.meta.current_page; // pagina atual
-        this.lastPage = data.meta.last_page; // quantidade de pagina
+        console.log("showAllContact");
+        await server
+          .get("api/cadastros", {
+            "Content-Type": "application/json",
+            headers: { Authorization: `Bearer ${userStore.getToken}` },
+            params: { page: page },
+          })
+          .then((response) => {
+            const { data } = response;
 
-        // verifica se esta offline
-        console.log("Contact offline 0!");
-        console.log("navigator.onLine");
-        console.log(navigator.onLine);
-        if (!navigator.onLine) {
-          this.getOffLineContact();
-        }
+            console.log("data paginação");
+            console.log(data);
+            this.allContact = data.data;
+            this.currentPage = data.meta.current_page; // pagina atual
+            this.lastPage = data.meta.last_page; // quantidade de pagina
 
-        return data.data;
+            // verifica se esta offline
+            console.log("Contact offline 0!");
+            console.log("navigator.onLine");
+            console.log(navigator.onLine);
+            if (!navigator.onLine) {
+              this.getOffLineContact();
+            }
+
+            return data.data;
+          })
+          .catch((error) => {
+            console.log("Contact offline 1!");
+            console.log("erro 4 A");
+            if (error) throw error;
+          });
       } catch (error) {
-        console.log("Contact offline 1!");
-        console.log("erro 4");
+        console.log("Contact offline 6!");
+        console.log("erro 4 B");
         if (error) throw error;
       }
     },
@@ -81,10 +97,11 @@ export const useContactStore = defineStore("contact", {
           )
           .then((res) => {
             this.showAllContact();
+            console.log("promisse de cadastro offline!");
             result.status = true;
           })
           .catch((error) => {
-            console.log("erro na promisse!");
+            console.log("erro na promisse de cadastro!");
             result.msg = error.response.data.message
               ? error.response.data.message
               : "";
@@ -112,30 +129,92 @@ export const useContactStore = defineStore("contact", {
     },
     async getOffLineContact() {
       console.log("Contact offline 2!");
-      /* try {
-        let db = openDB("workbox-background-sync").then((db) => {
+      try {
+        let db = await openDB("workbox-background-sync").then((db) => {
           console.log("database is open: ", db);
+          db.getAll("requests")
+            .then((failedRequests) => {
+              failedRequests.forEach((failedRequest) => {
+                if (failedRequest.queueName == "createPostQueue") {
+                  let requestData = failedRequest.requestData;
+
+                  console.log("Dados do Request: ", requestData);
+                  if (requestData && requestData.body) {
+                    // Converte o ArrayBuffer para uma string
+                    let requestBodyString = new TextDecoder().decode(
+                      requestData.body
+                    );
+
+                    let requestBody = JSON.parse(requestBodyString);
+
+                    console.log("requestBody: ", requestBody);
+                    // Agora você pode acessar os campos específicos
+                    /*  let nome = requestBody.nome;
+                    let endereco = requestBody.endereco;
+
+                    console.log("nome: ", nome);
+                    console.log("endereco: ", endereco); */
+
+                    let offLineContact = {};
+                    offLineContact.id = requestBody.id ? requestBody.id : null;
+                    offLineContact.nome = requestBody.nome;
+                    offLineContact.endereco = requestBody.endereco;
+                    offLineContact.telefone = requestBody.telefone;
+                    offLineContact.offline = true;
+
+                    console.log("offLineContact: ", offLineContact);
+                    console.log("getAllContact: ", this.getAllContact);
+
+                    this.allContact.push(offLineContact);
+
+                    console.log("getAllContact: ", this.getAllContact);
+                  }
+                }
+              });
+            })
+            .catch((error) => {
+              console.log("getAll error: ", error);
+            });
         });
       } catch (error) {
         console.log("database com erro: ", error);
-      } */
+      }
     },
-    //workbox-background-sync
-    /*  setUser(payload, token) {
-      const { data } = payload;
-      console.log("payload");
-      console.log(data);
-      if (data.id) this.id = data.id;
-      if (data.email) this.email = data.email;
-      if (data.name) this.name = data.name;
-      if (token) this.token = token;
+
+    async delete(id) {
+      const result = {
+        status: false,
+        msg: "",
+      };
+
+      const userStore = useUserStore();
+      try {
+        await server
+          .delete(`api/cadastros/${id}`, {
+            "Content-Type": "application/json",
+            headers: { Authorization: `Bearer ${userStore.getToken}` },
+          })
+          .then((res) => {
+            this.showAllContact();
+            console.log("Contato deletado com sucesso!");
+            result.status = true;
+          })
+          .catch((error) => {
+            console.log("Erro ao deletar o cadastro!");
+            result.msg = error.response.data.message
+              ? error.response.data.message
+              : "";
+          });
+
+        return result;
+      } catch (error) {
+        console.log("Erro ao deletar o cadastro!");
+        result.msg = error.response.data.message
+          ? error.response.data.message
+          : "";
+        return result;
+      }
     },
-    clearUser() {
-      this.id = null;
-      this.email = null;
-      this.name = null;
-      this.token = null;
-    }, */
   },
   persist: true,
 });
