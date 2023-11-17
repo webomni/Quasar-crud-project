@@ -1,7 +1,17 @@
 {
+  "name": "Quasar CRUD  - share You Experieces",
+  "short_name": "Quasar CRUD",
+  "description": "Teste de CRUD utilizando Vue 3, Pinia e Axios, trabalhando offline.",
   "orientation": "portrait",
+  "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#027be3",
+  "categories": ["tools", "productivity"],
+  "id": "/",
+  "start_url": "/",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
   "icons": [
     {
       "src": "icons/icon-128x128.png",

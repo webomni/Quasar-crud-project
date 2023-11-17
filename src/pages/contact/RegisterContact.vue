@@ -165,7 +165,7 @@ const register = async () => {
       $q.notify({
         type: "warning",
         position: "top",
-        message: "Castro criado offline!",
+        message: "Cadastro criado offline!",
       });
       await contactStore.showAllContact(1);
       router.push("contact");
