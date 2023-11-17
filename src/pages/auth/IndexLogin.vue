@@ -38,8 +38,8 @@ import { useContactStore } from "src/stores/contact-store";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 
-const credential = ref("paulo@sygmasistemas.com.br");
-const password = ref("123456");
+const credential = ref("");
+const password = ref("");
 const userStore = useUserStore();
 const contactStore = useContactStore();
 const $q = useQuasar();
