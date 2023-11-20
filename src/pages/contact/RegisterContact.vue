@@ -146,6 +146,12 @@ const register = async () => {
         icon: "check_circle",
         message: "Registro salvo com sucesso!",
       });
+      $q.notify({
+        type: "positive",
+        position: "top",
+        icon: "check_circle",
+        message: "Registro salvo com sucesso!",
+      });
     } else {
       console.log("erro na promisse registro!");
 
